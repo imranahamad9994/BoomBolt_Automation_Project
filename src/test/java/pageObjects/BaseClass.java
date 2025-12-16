@@ -3,10 +3,15 @@ package pageObjects;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -71,4 +76,27 @@ public class BaseClass {
 		String GeneratedNumber = RandomStringUtils.randomNumeric(10);
 		return (GeneratedString+GeneratedNumber);
 	}
+
+	public String captureScreen(String testName) throws IOException {
+	    // Create timestamp to make screenshot name unique
+	    String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+	    
+	    // Capture screenshot
+	    TakesScreenshot ts = (TakesScreenshot) driver;
+	    File source = ts.getScreenshotAs(OutputType.FILE);
+	    
+	    // Define destination file path
+	    String destination = System.getProperty("user.dir") + "\\screenshots\\" + testName + "_" + timestamp + ".png";
+	    
+	    // Create folder if not exists
+	    new File(System.getProperty("user.dir") + "\\screenshots\\").mkdirs();
+	    
+	    // Copy file to destination
+	    File finalDestination = new File(destination);
+	    FileUtils.copyFile(source, finalDestination);
+	    
+	    // Return path for Extent Report
+	    return destination;
+	}
 }
+

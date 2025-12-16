@@ -3,17 +3,21 @@
 
 
 <suite name="Suite">
-	
-	<parameter name="browser" value="chrome"></parameter>
-	<parameter name="os" value="windows"></parameter>
+	<listeners>
+		<listener class-name="utilities.ExtentReportManager"></listener>
+	</listeners>
  	
  	 <test thread-count="5" name="Test">
+ 	 
+ 	 <parameter name="browser" value="chrome"></parameter>
+	<parameter name="os" value="windows"></parameter>
+ 	 
   		<classes>
   			<!-- <class name="testCases.Test_01_RegistrationTest"></class> 
   			<class name="testCases.Test_01_RegistrationDDT"></class> 
   			<class name="testCases.Test_01_Login"></class>
   			<class name="testCases.Test_01_LoginDDT"></class>-->
-  			<class name="testCases.Test_01_LoginDDT"></class>
+  			<class name="testCases.Test_01_RegistrationTest"></class>
   		</classes>
   	</test> <!-- Test -->
   	

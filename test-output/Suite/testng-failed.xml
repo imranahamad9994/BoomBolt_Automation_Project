@@ -5,13 +5,13 @@
   <parameter name="browser" value="chrome"/>
   <test thread-count="5" name="Test(failed)">
     <classes>
-      <class name="testCases.Test_01_LoginDDT">
+      <class name="testCases.Test_01_RegistrationTest">
         <methods>
-          <include name="test_loginDDT" invocation-numbers="16 17 18 19 20 21 22 23 24 25 26 27 28 29"/>
           <include name="setup"/>
           <include name="tearDown"/>
+          <include name="testRegistration"/>
         </methods>
-      </class> <!-- testCases.Test_01_LoginDDT -->
+      </class> <!-- testCases.Test_01_RegistrationTest -->
     </classes>
   </test> <!-- Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->
