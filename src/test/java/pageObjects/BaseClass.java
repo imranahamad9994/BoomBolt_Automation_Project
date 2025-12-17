@@ -34,6 +34,7 @@ public class BaseClass {
 		p=new Properties();
 		p.load(file);
 	
+		System.setProperty("webdriver.edge.driver", "C:\\Users\\Hp\\BoomBolt_Automation\\BoomBolt_Automation_Project\\Edge-Driver\\msedgedriver.exe");
 		
 		switch(br.toLowerCase())
 		{

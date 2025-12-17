@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+<testng-results ignored="0" total="3" passed="3" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-12-16T18:44:32 IST" name="Suite" finished-at="2025-12-16T18:44:52 IST" duration-ms="20458">
+  <suite started-at="2025-12-16T19:45:33 IST" name="Suite" finished-at="2025-12-16T19:45:52 IST" duration-ms="19014">
     <groups>
     </groups>
-    <test started-at="2025-12-16T18:44:32 IST" name="Test" finished-at="2025-12-16T18:44:52 IST" duration-ms="20458">
+    <test started-at="2025-12-16T19:45:33 IST" name="Test Edge" finished-at="2025-12-16T19:45:51 IST" duration-ms="17509">
       <class name="testCases.Test_01_RegistrationTest">
-        <test-method is-config="true" signature="setup(java.lang.String,java.lang.String)[pri:0, instance:testCases.Test_01_RegistrationTest@4b2bac3f]" started-at="2025-12-16T18:44:32 IST" name="setup" finished-at="2025-12-16T18:44:39 IST" duration-ms="6691" status="PASS">
+        <test-method is-config="true" signature="setup(java.lang.String,java.lang.String)[pri:0, instance:testCases.Test_01_RegistrationTest@6913c1fb]" started-at="2025-12-16T19:45:34 IST" name="setup" finished-at="2025-12-16T19:45:43 IST" duration-ms="9184" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[windows]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[edge]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="testRegistration()[pri:0, instance:testCases.Test_01_RegistrationTest@6913c1fb]" started-at="2025-12-16T19:45:43 IST" name="testRegistration" finished-at="2025-12-16T19:45:50 IST" duration-ms="7633" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testRegistration -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:testCases.Test_01_RegistrationTest@6913c1fb]" started-at="2025-12-16T19:45:50 IST" name="tearDown" finished-at="2025-12-16T19:45:51 IST" duration-ms="334" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- testCases.Test_01_RegistrationTest -->
+    </test> <!-- Test Edge -->
+    <test started-at="2025-12-16T19:45:33 IST" name="Test Chrome" finished-at="2025-12-16T19:45:51 IST" duration-ms="17481">
+      <class name="testCases.Test_01_RegistrationTest">
+        <test-method is-config="true" signature="setup(java.lang.String,java.lang.String)[pri:0, instance:testCases.Test_01_RegistrationTest@4b2bac3f]" started-at="2025-12-16T19:45:34 IST" name="setup" finished-at="2025-12-16T19:45:43 IST" duration-ms="9111" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -23,15 +51,43 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="testRegistration()[pri:0, instance:testCases.Test_01_RegistrationTest@4b2bac3f]" started-at="2025-12-16T18:44:39 IST" name="testRegistration" finished-at="2025-12-16T18:44:52 IST" duration-ms="13281" status="PASS">
+        <test-method signature="testRegistration()[pri:0, instance:testCases.Test_01_RegistrationTest@4b2bac3f]" started-at="2025-12-16T19:45:43 IST" name="testRegistration" finished-at="2025-12-16T19:45:50 IST" duration-ms="7579" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testRegistration -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:testCases.Test_01_RegistrationTest@4b2bac3f]" started-at="2025-12-16T18:44:52 IST" name="tearDown" finished-at="2025-12-16T18:44:52 IST" duration-ms="144" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:testCases.Test_01_RegistrationTest@4b2bac3f]" started-at="2025-12-16T19:45:50 IST" name="tearDown" finished-at="2025-12-16T19:45:51 IST" duration-ms="409" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
       </class> <!-- testCases.Test_01_RegistrationTest -->
-    </test> <!-- Test -->
+    </test> <!-- Test Chrome -->
+    <test started-at="2025-12-16T19:45:33 IST" name="Test Firefox" finished-at="2025-12-16T19:45:52 IST" duration-ms="19014">
+      <class name="testCases.Test_01_RegistrationTest">
+        <test-method is-config="true" signature="setup(java.lang.String,java.lang.String)[pri:0, instance:testCases.Test_01_RegistrationTest@bccb269]" started-at="2025-12-16T19:45:33 IST" name="setup" finished-at="2025-12-16T19:45:42 IST" duration-ms="8663" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[windows]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[firefox]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="testRegistration()[pri:0, instance:testCases.Test_01_RegistrationTest@bccb269]" started-at="2025-12-16T19:45:42 IST" name="testRegistration" finished-at="2025-12-16T19:45:50 IST" duration-ms="8219" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testRegistration -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:testCases.Test_01_RegistrationTest@bccb269]" started-at="2025-12-16T19:45:50 IST" name="tearDown" finished-at="2025-12-16T19:45:52 IST" duration-ms="1894" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+      </class> <!-- testCases.Test_01_RegistrationTest -->
+    </test> <!-- Test Firefox -->
   </suite> <!-- Suite -->
 </testng-results>
