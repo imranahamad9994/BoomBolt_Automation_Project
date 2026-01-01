@@ -20,84 +20,129 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class BaseClass {
 
-	public WebDriver driver;
+	//public WebDriver driver;
+	// ✅ Thread-safe WebDriver for parallel execution
+	public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
 	public String URL = "https://boombolt.in/my-account/";
 	public Properties p;
-	
+
 	@BeforeClass
 	@Parameters({"os","browser"})
 	public void setup(String os, String br) throws IOException
 	{
-		FileReader file = new FileReader("C:\\Users\\Hp\\BoomBolt_Automation\\BoomBolt_Automation_Project\\src\\test\\resources\\config.properties");
-		p=new Properties();
+		FileReader file = new FileReader(System.getProperty("user.dir") + "/src/test/resources/config.properties");
+		p = new Properties();
 		p.load(file);
-	
-		System.setProperty("webdriver.edge.driver", "C:\\Users\\Hp\\BoomBolt_Automation\\BoomBolt_Automation_Project\\Edge-Driver\\msedgedriver.exe");
-		
-		switch(br.toLowerCase())
+
+		switch (br.toLowerCase())
 		{
-		case "chrome" : driver = new ChromeDriver(); break;
-		case "edge" : driver = new EdgeDriver();break;
-		case "firefox" : driver = new FirefoxDriver();break;
-		default : System.out.println("Invalid Browser"); return;
+			case "chrome":
+				WebDriverManager.chromedriver().setup();
+				//driver = new ChromeDriver();
+				driver.set(new ChromeDriver());
+				break;
+
+			case "edge":
+				WebDriverManager.edgedriver().setup();
+				//driver = new EdgeDriver();
+				driver.set(new EdgeDriver());
+				break;
+
+			case "firefox":
+				WebDriverManager.firefoxdriver().setup();
+				//driver = new FirefoxDriver();
+				driver.set(new FirefoxDriver());
+				break;
+
+			default:
+				System.out.println("Invalid Browser");
+				return;
 		}
-		
-		
-		
-		driver.get(URL);
-		driver.manage().window().maximize();
-		driver.manage().deleteAllCookies();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(8));
+
+		//driver.get(URL);
+		driver.get().get(URL);
+
+		//driver.manage().window().maximize();
+		driver.get().manage().window().maximize();
+
+		//driver.manage().deleteAllCookies();
+		driver.get().manage().deleteAllCookies();
+
+		//driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(8));
+		driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(8));
 	}
-	
+
 	@AfterClass
 	public void tearDown()
 	{
-		driver.close();
+		if (driver.get() != null)
+		{
+			driver.get().quit();   // ✅ closes all browser windows
+			driver.remove();       // ✅ VERY IMPORTANT for ThreadLocal cleanup
+		}
 	}
-	
-	
+
+	// ================= Utility Methods =================
+
 	public String randomString()
 	{
 		String GeneratedString = RandomStringUtils.randomAlphabetic(5);
 		return GeneratedString;
 	}
-	
+
 	public String randomNumber()
 	{
 		String GeneratedNumber = RandomStringUtils.randomNumeric(10);
 		return GeneratedNumber;
 	}
-	
+
 	public String randomAlphaNumeric()
 	{
 		String GeneratedString = RandomStringUtils.randomAlphabetic(5);
 		String GeneratedNumber = RandomStringUtils.randomNumeric(10);
-		return (GeneratedString+GeneratedNumber);
+		return (GeneratedString + GeneratedNumber);
 	}
 
-	public String captureScreen(String testName) throws IOException {
+	/*public String captureScreen(String testName) throws IOException {
+
 	    // Create timestamp to make screenshot name unique
 	    String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-	    
-	    // Capture screenshot
-	    TakesScreenshot ts = (TakesScreenshot) driver;
+
+	    // ❌ TakesScreenshot ts = (TakesScreenshot) driver;
+	    // ✅ Correct way with ThreadLocal
+	    TakesScreenshot ts = (TakesScreenshot) driver.get();
+
 	    File source = ts.getScreenshotAs(OutputType.FILE);
-	    
+
 	    // Define destination file path
-	    String destination = System.getProperty("user.dir") + "\\screenshots\\" + testName + "_" + timestamp + ".png";
-	    
+	    String destination = System.getProperty("user.dir") +
+	    		"\\screenshots\\" + testName + "_" + timestamp + ".png";
+
 	    // Create folder if not exists
 	    new File(System.getProperty("user.dir") + "\\screenshots\\").mkdirs();
-	    
+
 	    // Copy file to destination
 	    File finalDestination = new File(destination);
 	    FileUtils.copyFile(source, finalDestination);
-	    
+
 	    // Return path for Extent Report
 	    return destination;
-	}
-}
+	}*/
+	
+	public static String captureScreenStatic(String testName) throws IOException {
+	    TakesScreenshot ts = (TakesScreenshot) driver.get();
+	    File source = ts.getScreenshotAs(OutputType.FILE);
 
+	    String destination = System.getProperty("user.dir")
+	            + "/screenshots/" + testName + ".png";
+
+	    FileUtils.copyFile(source, new File(destination));
+	    return destination;
+	}
+
+}

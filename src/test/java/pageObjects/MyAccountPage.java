@@ -10,7 +10,7 @@ import testBase.BasePage;
 public class MyAccountPage extends BasePage{
 
 	public MyAccountPage(WebDriver driver) {
-		super(driver);
+		 this.driver = BaseClass.driver.get();
 		
 	}
 	

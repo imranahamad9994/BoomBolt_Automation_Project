@@ -10,7 +10,7 @@ import testBase.BasePage;
 public class HomePage extends BasePage {
 
 	public HomePage(WebDriver driver) {
-		super(driver);
+		 this.driver = BaseClass.driver.get();
 		
 	}
 	
@@ -21,8 +21,5 @@ public class HomePage extends BasePage {
 	public void clickMyAccount()
 	{
 		link_myAccount.click();
-	}
-
-	
-	
+	}	
 }

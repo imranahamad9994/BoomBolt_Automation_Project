@@ -1,11 +1,8 @@
 package utilities;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -14,107 +11,67 @@ import org.testng.ITestResult;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.markuputils.ExtentColor;
-import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
 import pageObjects.BaseClass;
 
-public class ExtentReportManager implements ITestListener
-{
+public class ExtentReportManager implements ITestListener {
 
-	 public ExtentSparkReporter sparkReporter;
-	    public ExtentReports extent;
-	    public ExtentTest test;
-	    String repName;
+    private static ExtentReports extent;
+    private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
 
-	   
-	    public void onStart(ITestContext testContext) {
-	        // Create a timestamped report file name
-	        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-	        repName = "Test-Report-" + timeStamp + ".html";
-	        sparkReporter = new ExtentSparkReporter(".\\reports\\" + repName); // specify report location
+    @Override
+    public void onStart(ITestContext context) {
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        String reportPath = System.getProperty("user.dir") + "/reports/Test-Report-" + timeStamp + ".html";
 
-	        // Configure report aesthetics
-	        sparkReporter.config().setDocumentTitle("Opencart Automation Report");
-	        sparkReporter.config().setReportName("Opencartedfcv b Functional Testing");
-	        
-	        sparkReporter.config().setTheme(Theme.DARK);
+        ExtentSparkReporter spark = new ExtentSparkReporter(reportPath);
+        spark.config().setDocumentTitle("BoomBolt Automation Report");
+        spark.config().setReportName("Functional Test Execution");
+        spark.config().setTheme(Theme.DARK);
 
-	        // Initialize ExtentReports and attach reporter
-	        extent = new ExtentReports();
-	        extent.attachReporter(sparkReporter);
+        extent = new ExtentReports();
+        extent.attachReporter(spark);
 
-	        // Add environment/system info
-	        extent.setSystemInfo("Application", "Opencart");
-	        extent.setSystemInfo("Module", "Admin");
-	        extent.setSystemInfo("Sub Module", "Customers");
-	        extent.setSystemInfo("User Name", System.getProperty("user.name"));
-	        extent.setSystemInfo("Environment", "QA");
+        extent.setSystemInfo("Application", "BoomBolt");
+        extent.setSystemInfo("Environment", "QA");
+        extent.setSystemInfo("User", System.getProperty("user.name"));
+    }
 
-	        // Fetch parameters from TestNG XML
-	        String os = testContext.getCurrentXmlTest().getParameter("os");
-	        if (os != null) extent.setSystemInfo("Operating System", os);
+    @Override
+    public void onTestStart(ITestResult result) {
+        ExtentTest extentTest = extent.createTest(
+                result.getTestClass().getName() + " :: " + result.getMethod().getMethodName()
+        );
+        test.set(extentTest);
+    }
 
-	        String browser = testContext.getCurrentXmlTest().getParameter("browser");
-	        if (browser != null) extent.setSystemInfo("Browser", browser);
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        test.get().log(Status.PASS, "Test Passed");
+    }
 
-	        // Include any groups specified in XML
-	        List<String> includedGroups = testContext.getCurrentXmlTest().getIncludedGroups();
-	        if (!includedGroups.isEmpty()) {
-	            extent.setSystemInfo("Groups", includedGroups.toString());
-	        }
-	    }
+    @Override
+    public void onTestFailure(ITestResult result) {
+        test.get().log(Status.FAIL, result.getThrowable());
 
-	   
-	    public void onTestSuccess(ITestResult result) {
-	        test = extent.createTest(result.getTestClass().getName());
-	        test.assignCategory(result.getMethod().getGroups());
-	        test.log(Status.PASS, result.getName() + " got successfully executed");
-	    }
+        try {
+            String screenshotPath = BaseClass.captureScreenStatic(result.getMethod().getMethodName());
+            test.get().addScreenCaptureFromPath(screenshotPath);
+        } catch (IOException e) {
+            test.get().log(Status.WARNING, "Screenshot capture failed");
+        }
+    }
 
-	    
-	    public void onTestFailure(ITestResult result) {
-	        test = extent.createTest(result.getTestClass().getName());
-	        test.assignCategory(result.getMethod().getGroups());
-	        test.log(Status.FAIL, result.getName() + " got failed");
-	        test.log(Status.INFO, result.getThrowable().getMessage());
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        test.get().log(Status.SKIP, "Test Skipped");
+    }
 
-	        // Capture and attach screenshot
-	        try {
-	            String imgPath = new BaseClass().captureScreen(result.getName());
-	            test.addScreenCaptureFromPath(imgPath);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
-
-	    
-	    public void onTestSkipped(ITestResult result) {
-	        test = extent.createTest(result.getTestClass().getName());
-	        test.assignCategory(result.getMethod().getGroups());
-	        test.log(Status.SKIP, result.getName() + " got skipped");
-	    }
-
-	    
-	public void onFinish(ITestContext testContext) {
-			
-			extent.flush();
-			
-			String pathOfExtentReport = System.getProperty("user.dir")+"\\reports\\"+repName;
-			File extentReport = new File(pathOfExtentReport);
-			
-			try {
-				Desktop.getDesktop().browse(extentReport.toURI());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	  }
-
-	    // Optional overrides (empty)
-	    @Override public void onTestStart(ITestResult result) {}
-	    @Override public void onTestFailedButWithinSuccessPercentage(ITestResult result) {}
-	    @Override public void onTestFailedWithTimeout(ITestResult result) {}
-	
+    @Override
+    public void onFinish(ITestContext context) {
+        extent.flush();
+        test.remove();
+    }
 }

@@ -16,7 +16,8 @@ public class Test_01_RegistrationDDT extends BaseClass {
 		try {
 			
 		
-		MyAccountPage map = new MyAccountPage(driver);
+		//MyAccountPage map = new MyAccountPage(driver);
+			MyAccountPage map = new MyAccountPage(driver.get());// With ThreadLocal
 		
 //		String username= randomString();
 //		String email = randomString()+"@aol.in";
@@ -40,7 +41,8 @@ public class Test_01_RegistrationDDT extends BaseClass {
 		boolean dashboard_visibility = map.isDashboardVisible();
 		
 		map.clickLogout();
-		driver.navigate().to(URL);
+		//driver.navigate().to(URL);
+		driver.get().navigate().to(URL);//With ThreadLocal
 		Assert.assertTrue(dashboard_visibility);
 		}
 		
