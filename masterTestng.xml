@@ -17,7 +17,9 @@
   			<class name="testCases.Test_01_RegistrationDDT"></class> 
   			<class name="testCases.Test_01_Login"></class>
   			<class name="testCases.Test_01_LoginDDT"></class>-->
-  			<class name="testCases.Test_01_LoginDDT"></class>
+  			<class name="testCases.Test_01_RegistrationDDT"></class>
+  			
+  			
   		</classes>
   	</test> <!-- Test -->
   	

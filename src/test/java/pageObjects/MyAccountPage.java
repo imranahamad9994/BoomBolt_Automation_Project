@@ -1,110 +1,75 @@
 package pageObjects;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
 import testBase.BasePage;
 
 public class MyAccountPage extends BasePage{
-
-	public MyAccountPage(WebDriver driver) {
-		 this.driver = BaseClass.driver.get();
 		
-	}
-	
-
-
-	
-//For Register
+//Elements For Register
 
 	//input[@id='reg_username']
 	//input[@id='reg_email']
 	//input[@id='reg_password']
 	//input[@name='register']
 	
-//AfterRegister
+//Elements After Register
 	//a[text()="Dashboard"]
 	//a[text()="Logout"]
 	
+	
+	//Locators
 	@FindBy(xpath="//a[normalize-space()='Register']")
-	@CacheLookup
 	WebElement btn_register;
 	
 	@FindBy(xpath="//input[@id='reg_username']")
-	@CacheLookup
 	WebElement txt_regUsername;
 	
 	@FindBy(xpath="//input[@id='reg_email']")
-	@CacheLookup
 	WebElement txt_regEmail;
 	
 	@FindBy(xpath="//input[@id='reg_password']")
-	@CacheLookup
 	WebElement txt_regPassword;
 	
 	@FindBy(xpath="//input[@name='register']")
-	@CacheLookup
 	WebElement btn_registerr;
 	
 	@FindBy(xpath="//a[text()=\"Dashboard\"]")
-	@CacheLookup
 	WebElement btn_dashboard;
 	
 	@FindBy(linkText="Logout")
-	@CacheLookup
 	WebElement btn_Logout;
 	
+	@FindBy(xpath="//strong[normalize-space()='Error:']")
+	WebElement regError;
 	
-	public void clickRegister1()
-	{
-		btn_register.click();
-	}
+	//Actions
 	
-	public void enterUsername(String username)
+	public void registerUser(String username, String email, String password)
 	{
-		txt_regUsername.sendKeys(username)	;
-	}
-	
-	public void enterEmail(String email)
-	{
-		txt_regEmail.sendKeys(email);
+		click(btn_register);
+		type(txt_regUsername, username);
+		type(txt_regEmail, email);
+		type(txt_regPassword, password);
+		click(btn_registerr);
 	}
 	
-	public void enterPassword(String password)
+	
+	public boolean isRegistrationSuccessful()
 	{
-		txt_regPassword.sendKeys(password);
+		return isDisplayed(btn_dashboard);
 	}
 	
-	public void clickRegister2()
+	public boolean isRegistrationFailed()
 	{
-		btn_registerr.click();
+		return isDisplayed(regError);
 	}
 	
-	public boolean isDashboardVisible()
+	
+	public void logout()
 	{
-		boolean dashboard = btn_dashboard.isDisplayed();
-		return dashboard;
+		click(btn_Logout);
 	}
 	
-	public void clickLogout()
-	{
-		btn_Logout.click();
-	}
-	 
-	public void clearUsername()
-	{
-		txt_regUsername.clear();
-	}
-	
-	public void clearEmail()
-	{
-		txt_regEmail.clear();
-	}
-	
-	public void clearPassword()
-	{
-		txt_regPassword.clear();
-	}
 }

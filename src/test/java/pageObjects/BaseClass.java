@@ -14,6 +14,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
@@ -42,11 +43,22 @@ public class BaseClass {
 		switch (br.toLowerCase())
 		{
 			case "chrome":
+				
+				if(p.get("headless").equals("true"))
+				{
+					ChromeOptions options = new ChromeOptions();
+					options.addArguments("--headless=new");
+					driver.set(new ChromeDriver(options));
+					break;
+				}
+				else
+				{
 				WebDriverManager.chromedriver().setup();
 				//driver = new ChromeDriver();
 				driver.set(new ChromeDriver());
 				break;
-
+				}
+				
 			case "edge":
 				WebDriverManager.edgedriver().setup();
 				//driver = new EdgeDriver();
@@ -133,6 +145,7 @@ public class BaseClass {
 	    // Return path for Extent Report
 	    return destination;
 	}*/
+	//=====================Screenshot Method=============================
 	
 	public static String captureScreenStatic(String testName) throws IOException {
 	    TakesScreenshot ts = (TakesScreenshot) driver.get();

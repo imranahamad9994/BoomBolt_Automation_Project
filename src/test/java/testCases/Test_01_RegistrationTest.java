@@ -3,6 +3,8 @@ package testCases;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.github.javafaker.Faker;
+
 import pageObjects.BaseClass;
 import pageObjects.HomePage;
 import pageObjects.MyAccountPage;
@@ -10,44 +12,27 @@ import pageObjects.MyAccountPage;
 
 public class Test_01_RegistrationTest extends BaseClass{
 	
-	@Test
-	public void testRegistration()
+	Faker faker;
+	 @Test(description = "Verify user can register with valid details",
+		   groups = {"registration", "smoke"})
+	public void register_with_valid_details_should_create_new_user()
 	{
-		try {
-			
-//			HomePage hp = new HomePage(driver);
-//			hp.clickMyAccount();
-			
+		 // Ensure correct starting page
+	        driver.get().get(p.getProperty("appURL"));
+	        
+		faker = new Faker();
+		MyAccountPage map = new MyAccountPage();
 		
-		//MyAccountPage map = new MyAccountPage(driver);
-		MyAccountPage map = new MyAccountPage(driver.get());//With ThreadLocal
+		String username = faker.name().username();
+		String email = faker.internet().emailAddress();
+		String password = faker.internet().password();
 		
-		String username= randomString();
-		String email = randomString()+"@aol.in";
-		String password = randomAlphaNumeric();
+		map.registerUser(username, email, password);
+		boolean regSuccess = map.isRegistrationSuccessful();
+		Assert.assertTrue(regSuccess, "Registration Failed for:"+username);
 		
-		System.out.println(username+"\t"+email+"\t"+password);
-		
-		map.clickRegister1();
-		map.enterUsername(username);
-		map.enterEmail(email);
-		map.enterPassword(password);
-		map.clickRegister2();
-		
-		boolean dashboard_visibility = map.isDashboardVisible();
-		map.clickLogout();
-		//driver.navigate().to(URL);
-		driver.get().navigate().to(URL);//With ThreadLocal
-		Assert.assertTrue(dashboard_visibility);
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-			Assert.fail();
-		}
-		
-		
-		
+		if(regSuccess)
+			map.logout();
 	}
 
 }

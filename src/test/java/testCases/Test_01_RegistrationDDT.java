@@ -6,53 +6,37 @@ import org.testng.annotations.Test;
 import pageObjects.BaseClass;
 import pageObjects.MyAccountPage;
 import utilities.DataProviders;
-@Test(dataProvider = "regData", dataProviderClass = DataProviders.class)
+
+
+
 public class Test_01_RegistrationDDT extends BaseClass {
 	
+	@Test(dataProvider = "RegistrationData", dataProviderClass = DataProviders.class,
+			groups = {"DataDriven"},
+			description = "Verify registration with valid, invalid and duplicate data")
 	
-	
-	public void testRegistrationDDT(String username, String email, String password)
+	public void testRegistrationDDT(String username, String email, String password, String expectedResultForReg)
 	{
-		try {
-			
-		
-		//MyAccountPage map = new MyAccountPage(driver);
-			MyAccountPage map = new MyAccountPage(driver.get());// With ThreadLocal
-		
-//		String username= randomString();
-//		String email = randomString()+"@aol.in";
-//		String password = randomAlphaNumeric();
-		
-		System.out.println(username+"\t"+email+"\t"+password);
-		
-		map.clickRegister1();
-		
-		map.clearUsername();
-		map.enterUsername(username);
-		
-		map.clearEmail();
-		map.enterEmail(email);
-		
-		map.clearPassword();
-		map.enterPassword(password);
-		
-		map.clickRegister2();
-		
-		boolean dashboard_visibility = map.isDashboardVisible();
-		
-		map.clickLogout();
-		//driver.navigate().to(URL);
-		driver.get().navigate().to(URL);//With ThreadLocal
-		Assert.assertTrue(dashboard_visibility);
-		}
-		
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-			Assert.fail();
-		}
-		
-		
-		
+		// Ensure correct starting page
+        driver.get().get(p.getProperty("appURL"));
+        
+	
+	MyAccountPage map = new MyAccountPage();
+	
+	map.registerUser(username, email, password);
+	boolean regSuccess = map.isRegistrationSuccessful();
+	boolean regFailure = map.isRegistrationFailed();
+	
+	if(expectedResultForReg.equalsIgnoreCase("success"))
+	{
+	Assert.assertTrue(regSuccess, "Expected SUCCESS but registration failed for email:" + email);
+		map.logout();
+	}
+	
+	else if(expectedResultForReg.equalsIgnoreCase("duplicate") || expectedResultForReg.equalsIgnoreCase("failure"))
+			{
+			Assert.assertTrue(regFailure, "Expected FAILURE but registration succeeded for email:" + email );
+			}
 	}
 }
+
