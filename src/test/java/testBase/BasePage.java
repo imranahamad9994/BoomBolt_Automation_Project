@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import pageObjects.BaseClass;
@@ -41,5 +42,11 @@ public class BasePage {
 
     protected String getText(WebElement element) {
         return wait.until(ExpectedConditions.visibilityOf(element)).getText();
+    }
+    
+    protected void selectDropdown(WebElement element, int index)
+    {
+    	Select select = new Select(element);
+    	select.selectByIndex(index);
     }
 }

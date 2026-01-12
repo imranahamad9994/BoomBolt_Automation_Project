@@ -25,8 +25,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
 
-	//public WebDriver driver;
-	// ✅ Thread-safe WebDriver for parallel execution
+	//public WebDriver driver;---> Not Thread-safe WebDriver
+	
+	// Thread-safe WebDriver for parallel execution
 	public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
 	public String URL = "https://boombolt.in/my-account/";
@@ -94,8 +95,8 @@ public class BaseClass {
 	{
 		if (driver.get() != null)
 		{
-			driver.get().quit();   // ✅ closes all browser windows
-			driver.remove();       // ✅ VERY IMPORTANT for ThreadLocal cleanup
+			driver.get().quit();   // Closes all browser windows
+			driver.remove();       // VERY IMPORTANT for ThreadLocal cleanup
 		}
 	}
 

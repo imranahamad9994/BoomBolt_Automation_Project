@@ -8,13 +8,13 @@
     <parameter name="os" value="windows"/>
     <parameter name="browser" value="chrome"/>
     <classes>
-      <class name="testCases.Test_01_LoginDDT">
+      <class name="testCases.Test_02_CheckoutTest">
         <methods>
-          <include name="test_login_ddt"/>
           <include name="setup"/>
+          <include name="testCheckout"/>
           <include name="tearDown"/>
         </methods>
-      </class> <!-- testCases.Test_01_LoginDDT -->
+      </class> <!-- testCases.Test_02_CheckoutTest -->
     </classes>
   </test> <!-- Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->

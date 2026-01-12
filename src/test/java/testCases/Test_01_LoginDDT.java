@@ -17,7 +17,7 @@ public class Test_01_LoginDDT extends BaseClass {
         description = "Verify login functionality with multiple credentials",
         groups = {"login", "ddt", "regression"}
     )
-    public void test_login_ddt(String username, String email, String password, String expectedResultForReg ) {
+    public void test_login_ddt(String username, String email, String password, String expectedResultForReg/*(expectedResultForReg not required in the test)*/ ) {
     	
     	// ✅ Ensure correct starting page for EVERY iteration
         driver.get().get(p.getProperty("appURL"));
