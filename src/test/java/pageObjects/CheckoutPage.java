@@ -139,7 +139,8 @@ public class CheckoutPage extends BasePage{
 		if(chkbx_ship_to_different_address.isSelected())
 			click(chkbx_ship_to_different_address);
 		
-		click(btn_place_order);
+		// JS click used as fallback for headless stability
+		jsClick(btn_place_order);
 	}
 	
 	public void CheckoutFailedClose()

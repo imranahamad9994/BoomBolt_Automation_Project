@@ -2,6 +2,7 @@ package testBase;
 
 import java.time.Duration;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -24,6 +25,12 @@ public class BasePage {
 
     protected void click(WebElement element) {
         wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+    }
+    
+    protected void jsClick(WebElement element)
+    {
+    	JavascriptExecutor js = (JavascriptExecutor) driver;
+    	js.executeScript("arguments[0].click();", element);
     }
 
     protected void type(WebElement element, String text) {

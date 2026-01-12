@@ -13,11 +13,13 @@
 	<parameter name="os" value="windows"></parameter>
  	 
   		<classes>
-  			<class name="testCases.Test_01_RegistrationTest"></class> 
+  			
+			<class name="testCases.Test_01_RegistrationTest"></class> 
   			<class name="testCases.Test_01_RegistrationDDT"></class> 
   			<class name="testCases.Test_01_Login"></class>
   			<class name="testCases.Test_01_LoginDDT"></class>
   			<class name="testCases.Test_02_CheckoutTest"></class>
+  			
   			
   			
   			
